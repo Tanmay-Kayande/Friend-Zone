@@ -20,17 +20,18 @@ To get started with FriendZone and explore its features, follow these steps:
    ```bash
    git clone https://github.com/your-username/friendzone.git
    ```
-Install dependencies:
+2. Install dependencies:
 
   ```bash
   cd friendzone
   npm install
 ```
-Run the application:
+3. Run the application:
   ```bash
   npm start
-Open your web browser and navigate to http://localhost:3000 to access FriendZone.
 ```
+Open your web browser and navigate to http://localhost:3000 to access FriendZone.
+
 ##Contributing
 
 This project is open to contributions! If you're interested in contributing to FriendZone's development and enhancing your skills, feel free to explore the codebase, experiment with new features, and submit pull requests.
