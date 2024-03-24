@@ -12,4 +12,11 @@ public class HoneController {
 		
 		return "This is home";
 	}
+	@GetMapping("/home")
+	public String homeControllerHandler2() {
+		
+		
+		return "This is home 2";
+	}
 }
+
