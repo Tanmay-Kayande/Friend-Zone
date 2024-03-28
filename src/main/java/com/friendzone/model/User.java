@@ -1,5 +1,8 @@
 package com.friendzone.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -12,19 +15,53 @@ public class User {
 	private String lastname;
 	private String email;
 	private String password;
+	private String gender;
+	private List<Integer> followers = new ArrayList<>();
+	private List<Integer> following = new ArrayList<>();
 	
-	public User() {
-		
-	}
-
-	public User(Integer id, String firstname, String lastname, String email, String password) {
+	
+	public User(Integer id, String firstname, String lastname, String email, String password, String gender,
+			List<Integer> followers, List<Integer> following) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
+		this.gender = gender;
+		this.followers = followers;
+		this.following = following;
 	}
+	
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public List<Integer> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<Integer> followers) {
+		this.followers = followers;
+	}
+
+	public List<Integer> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(List<Integer> following) {
+		this.following = following;
+	}
+
+	public User() {
+		
+	}
+
 
 	public Integer getId() {
 		return id;
