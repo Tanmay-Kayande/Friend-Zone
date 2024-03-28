@@ -11,28 +11,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.friendzone.model.User;
 import com.friendzone.repository.UserRepository;
+import com.friendzone.service.UserService;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	UserService userService;
 
 	@PostMapping("/users")
 	public User createUser(@RequestBody User user) {
 
-		User newUser = new User();
-		newUser.setEmail(user.getEmail());
-		newUser.setFirstname(user.getFirstname());
-		newUser.setLastname(user.getLastname());
-		newUser.setPassword(user.getPassword());
-		newUser.setId(user.getId());
-
-		User savedUser = userRepository.save(newUser);
+		User savedUser = userService.registerUser(user);
 
 		return savedUser;
 
@@ -49,54 +47,57 @@ public class UserController {
 	@GetMapping("/users/{userId}")
 	public User getUserById(@PathVariable("userId") Integer id) throws Exception {
 
-		Optional<User> user = userRepository.findById(id);
-
-		if (user.isPresent()) {
-			return user.get();
-		}
-
-		throw new Exception("user not found on id " + id);
+		User user = userService.findUserById(id);
+		
+		return user;
+		
 	}
-
+	
 	@PutMapping("/users/{userId}")
 	public User updateUser(@RequestBody User user, @PathVariable Integer userId) throws Exception {
 
-		Optional<User> userUp = userRepository.findById(userId);
-
-		if (userUp.isEmpty()) {
-
-			throw new Exception("user not found on id " + userId);
-		}
-
-		User oldUser = userUp.get();
-
-		if (user.getFirstname() != null) {
-			oldUser.setFirstname(user.getFirstname());
-		}
-		if (user.getLastname() != null) {
-			oldUser.setLastname(user.getLastname());
-		}
-		if (user.getPassword() != null) {
-			oldUser.setPassword(user.getPassword());
-		}
-
-		User updatedUser = userRepository.save(oldUser);
+	
+		User updatedUser = userService.updateUser(user, userId);
 
 		return updatedUser;
 	}
 
-	@DeleteMapping("/users/{userId}")
-	public String deleteUser(@PathVariable Integer userId) throws Exception {
-
-		Optional<User> userDel = userRepository.findById(userId);
-
-		if (userDel.isEmpty()) {
-
-			throw new Exception("user not found on id " + userId);
-		}
-
-		userRepository.delete(userDel.get());
+	@PutMapping("/users/follow/{userId1}/{userId2}")
+	public User followUserHandler(@PathVariable Integer userId1, @PathVariable Integer userId2) throws Exception {
 		
-		return "user deleted with id " + userId;
+		User user = userService.followUser(userId1, userId2);
+		return user;
 	}
+	
+	@GetMapping("/users/search")
+	public List<User> searchUser(@RequestParam("query") String query){
+		
+		List<User> user = userService.searchUser(query);
+		
+		return user;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	@DeleteMapping("/users/{userId}")
+//	public String deleteUser(@PathVariable Integer userId) throws Exception {
+//
+//		Optional<User> userDel = userRepository.findById(userId);
+//
+//		if (userDel.isEmpty()) {
+//
+//			throw new Exception("user not found on id " + userId);
+//		}
+//
+//		userRepository.delete(userDel.get());
+//		
+//		return "user deleted with id " + userId;
+//	}
 }
